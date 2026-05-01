@@ -1,0 +1,18 @@
+.table {
+  width: 100%;
+  border: 2px solid #3b82f6;
+  border-collapse: collapse;
+}
+
+.header {
+  background: #dbeafe;
+}
+
+.cell {
+  padding: 10px;
+  border-top: 1px solid #93c5fd;
+}
+
+.row:hover {
+  background: #eff6ff;
+}
