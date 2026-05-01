@@ -1,27 +1,23 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
+import Database from "better-sqlite3";
 
 let db: any;
 
-export const getDB = async () => {
-  if (db) return db;
+export function getDB() {
+  if (!db) {
+    db = new Database("expenses.db");
 
-  db = await open({
-    filename: "./expenses.db",
-    driver: sqlite3.Database,
-  });
-
-  await db.exec(`
-    CREATE TABLE IF NOT EXISTS expenses (
-      id TEXT PRIMARY KEY,
-      amount REAL NOT NULL,
-      category TEXT NOT NULL,
-      description TEXT,
-      date TEXT NOT NULL,
-      created_at TEXT NOT NULL,
-      idempotency_key TEXT UNIQUE
-    )
-  `);
+    db.prepare(`
+      CREATE TABLE IF NOT EXISTS expenses (
+        id TEXT PRIMARY KEY,
+        amount REAL,
+        category TEXT,
+        description TEXT,
+        date TEXT,
+        created_at TEXT,
+        idempotency_key TEXT
+      )
+    `).run();
+  }
 
   return db;
-};
+}
